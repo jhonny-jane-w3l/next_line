@@ -6,7 +6,7 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:06:06 by cw3l              #+#    #+#             */
-/*   Updated: 2024/11/09 20:14:29 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 21:17:55 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ char	*read_traitement(int fd, char *buff, char *line, char **stach)
 	return (line);
 }
 
-char	*ft_stach_processing(char **stach, char **line, char **buffer)
+char	*ft_stach_processing(char **stach, char **line)
 {
 	char	*tmp1;
-	char	*tmp2;
 	int		index_return;
 	int		len_return;
 
@@ -72,16 +71,15 @@ char	*ft_stach_processing(char **stach, char **line, char **buffer)
 	if (!(*line))
 		return (NULL);
 	free(tmp1);
-	tmp2 = ft_substr(*stach, index_return, len_return - index_return);
+	tmp1 = ft_substr(*stach, index_return, len_return - index_return);
 	free(*stach);
-	if (ft_len_index_of(tmp2, 'l') == 0)
+	if (ft_len_index_of(tmp1, 'l') == 0)
 	{
-		free(tmp2);
+		free(tmp1);
 		*stach = NULL;
 	}
 	else
-		*stach = tmp2;
-	free(*buffer);
+		*stach = tmp1;
 	return (*line);
 }
 
@@ -98,7 +96,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = NULL;
 	if (stach[fd] && ft_len_index_of(stach[fd], 'i') > -1)
-		return (ft_stach_processing(&stach[fd], &line, &buffer));
+	{
+		free(buffer);
+		return (ft_stach_processing(&stach[fd], &line));
+	}
 	else
 	{
 		line = clean(&line, ft_strjoin(line, stach[fd]));
@@ -110,12 +111,11 @@ char	*get_next_line(int fd)
 	return (line);
 }
 // #include <stdio.h>
-
+// #include <assert.h>
 // int main(void)
 // {
 // 	int fd1;
 // 	int fd2;
-
 // 	fd1 = open("file1.txt",O_RDONLY);
 // 	if(fd1 == -1)
 // 	{
@@ -132,7 +132,6 @@ char	*get_next_line(int fd)
 // 	printf("%s\n", get_next_line(fd2));
 // 	printf("%s\n", get_next_line(fd1));
 // 	printf("%s\n", get_next_line(fd2));
-// 	printf("%s\n", get_next_line(fd1));
-	
+// 	printf("%s\n", get_next_line(fd1));	
 // 	return(0);
 // }

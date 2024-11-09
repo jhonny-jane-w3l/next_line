@@ -6,7 +6,7 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:06:06 by cw3l              #+#    #+#             */
-/*   Updated: 2024/11/09 20:58:52 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 21:18:28 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
-#include <stdio.h>
-#include <assert.h>
+// #include <stdio.h>
+// #include <assert.h>
 
 // int main(void)
 // {
@@ -135,7 +135,5 @@ char	*get_next_line(int fd)
 // 	printf("%s\n", get_next_line(fd1));
 // 	printf("%s\n", get_next_line(fd2));
 // 	printf("%s\n", get_next_line(fd1));
-	
 // 	return(0);
 // }
-
