@@ -6,7 +6,7 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:06:06 by cw3l              #+#    #+#             */
-/*   Updated: 2024/11/09 15:28:05 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 20:14:29 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,30 +109,30 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
-#include <stdio.h>
+// #include <stdio.h>
 
-int main(void)
-{
-	int fd1;
-	int fd2;
+// int main(void)
+// {
+// 	int fd1;
+// 	int fd2;
 
-	fd1 = open("file1.txt",O_RDONLY);
-	if(fd1 == -1)
-	{
-		printf("erreur\n");
-		return (-1);
-	}
-	fd2 = open("file2.txt",O_RDONLY);
-	if(fd2 == -1)
-	{
-		printf("erreur\n");
-		return (-1);
-	}
-	printf("%s\n", get_next_line(fd1));
-	printf("%s\n", get_next_line(fd2));
-	printf("%s\n", get_next_line(fd1));
-	printf("%s\n", get_next_line(fd2));
-	printf("%s\n", get_next_line(fd1));
+// 	fd1 = open("file1.txt",O_RDONLY);
+// 	if(fd1 == -1)
+// 	{
+// 		printf("erreur\n");
+// 		return (-1);
+// 	}
+// 	fd2 = open("file2.txt",O_RDONLY);
+// 	if(fd2 == -1)
+// 	{
+// 		printf("erreur\n");
+// 		return (-1);
+// 	}
+// 	printf("%s\n", get_next_line(fd1));
+// 	printf("%s\n", get_next_line(fd2));
+// 	printf("%s\n", get_next_line(fd1));
+// 	printf("%s\n", get_next_line(fd2));
+// 	printf("%s\n", get_next_line(fd1));
 	
-	return(0);
-}
+// 	return(0);
+// }
