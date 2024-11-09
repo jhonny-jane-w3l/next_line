@@ -6,44 +6,38 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:52:55 by cbouhadr          #+#    #+#             */
-/*   Updated: 2024/11/09 11:41:24 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 14:55:46 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s && s[i])
-        i++;
-    return (i);
-}
-
-int	index__of(char *str, char c)
+int	ft_len_index_of(char *str, char mode)
 {
 	int i;
 	
 	i = 0;
 	if (!str)
-		return (-1);
+	{
+		if (mode == 'i')
+			return (-1);
+		else
+			return (0);
+	}
 	while (str && str[i])
 	{
-		if(str[i] == c)
+		if(str[i] == 10 && mode == 'i')
 			return (i);
 		i++;
 	}
-	return(-1);
+	if(mode == 'i')
+		return (-1);
+	return (i);
 }
 
 char	*clean(char **old_ptr, char *new)
 {
-	//printf("voici old pointer %p\n",*old_ptr);
 	free (*old_ptr);
 	*old_ptr = new;
-	//printf("voici new pointer %p\n",*old_ptr);
 	return (*old_ptr);
 }
 
@@ -58,10 +52,13 @@ char	*ft_substr(char *str, int start, int len)
 	sub = malloc(sizeof(char) * (len + 1));
 	if (!sub)
 		return (NULL);
-	str_len = ft_strlen(str);
+	str_len = ft_len_index_of(str, 'l');
 	i = 0;
 	if (start > str_len)
-		return ("");
+	{
+		free(sub);
+		return (NULL);
+	}
 	while (str[start] && i < len)
 	{
 		sub[i] = str[start];
@@ -80,7 +77,7 @@ char	*ft_strdup(char *str)
 
 	if (!str)
 		return (NULL);
-	len = ft_strlen(str);
+	len = ft_len_index_of(str, 'l');
 	i = 0;
 	if (len == 0)
 		return (NULL);
@@ -106,7 +103,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2);
+	len = ft_len_index_of(s1,'l') + ft_len_index_of(s2,'l');
 	new_str = malloc(sizeof(char) * (len + 1));
 	tmp = s1;
 	if (!new_str)

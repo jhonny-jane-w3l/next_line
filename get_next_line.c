@@ -1,44 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 13:06:06 by cw3l              #+#    #+#             */
+/*   Updated: 2024/11/09 14:56:36 by cw3l             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char *taitement(int fd, char *buff, char *line, char **stach, int b);
+char	*read_traitement(int fd, char *buff, char *line, char **stach);
 
-char *ft_process(int fd, char *buff, char *line, char **stach, int b)
+char	*ft_process(int fd, char *buff, char *line, char **stach, int b)
 {
-	line = clean(&line,ft_strjoin(line, buff)); 
-	if(!line)
+	line = clean(&line, ft_strjoin(line, buff));
+	if (!line)
 		return (NULL);
 	if (b > 0)
-		line = taitement(fd, buff, line, stach, b);
+		line = read_traitement(fd, buff, line, stach);
 	return (line);
 }
 
-char    *taitement(int fd, char *buff,char *line,char **stach, int b)
+char	*read_traitement(int fd, char *buff, char *line, char **stach)
 {
-	char *t;
+	char	*t;
+	char	*tmp;
+	int		b;
+	int		index_return;
 
-	b = read(fd,buff,BUFFER_SIZE);
-	if(b < 0)
+	b = read(fd, buff, BUFFER_SIZE);
+	if (b < 0)
 	{
 		free(line);
 		return (NULL);
 	}
 	buff[b] = '\0';
-	if(b == 0)
-		return(line);
-	if(index__of(buff,10) == -1)
-		return ft_process(fd,buff,line,stach,b);
-	char *sub;
+	if (b == 0)
+		return (line);
+	index_return = ft_len_index_of(buff,'i');
+	if (index_return == -1)
+		return (ft_process(fd, buff, line, stach, b));
+		
+	tmp = ft_substr(buff, 0, index_return + 1);
+	line = clean(&line, ft_strjoin(line, tmp));
 
-	sub = ft_substr(buff,0,index__of(buff,10) + 1);
-	line = clean(&line ,ft_strjoin(line,sub));
-	free(sub);
-	t = ft_strchr(buff,10) + 1;
+	free(tmp);
+	t = ft_strchr(buff, 10) + 1;
 	*stach = ft_strdup(t);
-	return(line);
+	return (line);
 }
-char *get_next_line(int fd)
+
+char	*ft_stach_processing(char **stach, char **line, char **buffer)
 {
-	int           b;
+	char *tmp1;
+	char *tmp2;
+	int	index_return;
+	int	len_return;
+
+	index_return = ft_len_index_of(*stach, 'i') + 1;
+	len_return = ft_len_index_of(*stach, 'l');
+	
+	tmp1 = ft_substr(*stach, 0, index_return);
+	*line = ft_strjoin(*line, tmp1);
+	
+	if(!(*line))
+		return (NULL);
+	free(tmp1);
+	tmp2 = ft_substr(*stach,index_return, len_return - index_return);
+	free(*stach);
+	
+	if (ft_len_index_of(tmp2, 'l') == 0)
+	{
+		free(tmp2);
+		*stach = NULL;
+	}
+	else
+		*stach = tmp2;
+	free(*buffer);
+	return (*line);
+}
+
+char	*get_next_line(int fd)
+{
 	char		*buffer;
 	char		*line;
 	static char	*stach[200];
@@ -46,42 +92,21 @@ char *get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if(!buffer)
+	if (!buffer)
 		return (NULL);
 	line = NULL;
-	b = - 1;
-	if (stach[fd] && index__of(stach[fd],10) > -1)
-	{
-		char *sub;
-		sub = ft_substr(stach[fd],0,index__of(stach[fd],10) + 1);
-		line = ft_strjoin(line,sub);
-		free(sub);
-		char *sub2 = ft_substr(stach[fd],index__of(stach[fd],10) + 1, ft_strlen(stach[fd]) - index__of(stach[fd],10) + 1 );
-		free(stach[fd]);
-		if(ft_strlen(sub2) == 0)
-		{
-			free(sub2);
-			stach[fd] = NULL;
-		}
-		else
-			stach[fd] = sub2;
-		free(buffer);
-		return(line);
-	}
+	if (stach[fd] && ft_len_index_of(stach[fd], 'i') > -1)
+		return ( ft_stach_processing(&stach[fd],&line,&buffer));
 	else
 	{
-		line = clean(&line,ft_strjoin(line, stach[fd]));
+		line = clean(&line, ft_strjoin(line, stach[fd]));
 		free(stach[fd]);
 		stach[fd] = NULL;
 	}
-	line = taitement(fd, buffer,line, &stach[fd],b);
-	if(!line)
-		free(line);
+	line = read_traitement(fd, buffer, line, &stach[fd]);
 	free(buffer);
-	return(line);
+	return (line);
 }
-
-
 // int main(void)
 // {
 // 	int fd;
@@ -105,9 +130,5 @@ char *get_next_line(int fd)
 // 	printf("%s\n", get_next_line(fd));
 // 	printf("%s\n", get_next_line(fd));
 // 	printf("%s\n", get_next_line(fd));
-	
-	
-	
-   
 // 	return(0);
 // }

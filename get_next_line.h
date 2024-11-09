@@ -6,7 +6,7 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:52:16 by cbouhadr          #+#    #+#             */
-/*   Updated: 2024/11/09 01:03:31 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 13:21:57 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ void *ft_clean_exit(t_get_next_line **process_b);
 char	*ft_analyse(char *str);
 int	index__of(char *str, char c);
 int	ft_strlen(const char *s);
+int	ft_len_index_of(char *str, char mode);
 
 #endif
