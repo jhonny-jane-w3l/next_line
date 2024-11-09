@@ -6,15 +6,16 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 06:52:55 by cbouhadr          #+#    #+#             */
-/*   Updated: 2024/11/09 14:55:46 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 15:08:25 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 int	ft_len_index_of(char *str, char mode)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (!str)
 	{
@@ -25,20 +26,13 @@ int	ft_len_index_of(char *str, char mode)
 	}
 	while (str && str[i])
 	{
-		if(str[i] == 10 && mode == 'i')
+		if (str[i] == 10 && mode == 'i')
 			return (i);
 		i++;
 	}
-	if(mode == 'i')
+	if (mode == 'i')
 		return (-1);
 	return (i);
-}
-
-char	*clean(char **old_ptr, char *new)
-{
-	free (*old_ptr);
-	*old_ptr = new;
-	return (*old_ptr);
 }
 
 char	*ft_substr(char *str, int start, int len)
@@ -99,11 +93,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 	char	*new_str;
-	char 	*tmp;
+	char	*tmp;
 
 	if (!s1 && !s2)
 		return (NULL);
-	len = ft_len_index_of(s1,'l') + ft_len_index_of(s2,'l');
+	len = ft_len_index_of(s1, 'l') + ft_len_index_of(s2, 'l');
 	new_str = malloc(sizeof(char) * (len + 1));
 	tmp = s1;
 	if (!new_str)
@@ -122,93 +116,13 @@ char	*ft_strjoin(char *s1, char *s2)
 
 char	*ft_strchr(char *str, char c)
 {
-	if(!str)
-		return(NULL);
+	if (!str)
+		return (NULL);
 	while (*str)
 	{
-		if(*str == c)
-			return(str);
+		if (*str == c)
+			return (str);
 		str++;
 	}
 	return (NULL);
-
 }
-
-// char	*ft_strjoin(char **s1, char **s2)
-// {
-// 	int		len;
-// 	int		i;
-// 	int		j;
-// 	char	*new_str;
-
-// 	if (!s1 && !s2)
-// 		return (NULL);
-// 	len = ft_strlen_idx(s1, 1) + ft_strlen_idx(s2, 1);
-// 	new_str = malloc(sizeof(char) * (len + 1));
-// 	if (!new_str)
-// 		return (ft_clean_alloc(s1));
-// 	i = 0;
-// 	j = 0;
-// 	while (s1 && s1[j])
-// 		new_str[i++] = s1[j++];
-// 	j = 0;
-// 	while (s2 && s2[j])
-// 		new_str[i++] = s2[j++];
-// 	new_str[i] = '\0';
-// 	return (new_str);
-// }
-
-
-// int main()
-// {
-// 	// assert(ft_strlen_idx("hello", 1) == 5 );
-// 	// assert(ft_strlen_idx("", 1) == 0);
-// 	// assert(ft_strlen_idx("hello", 2) == -1 );
-// 	// assert(ft_strlen_idx("hello\nworld", 2) == 6 );
-// 	// assert(ft_strlen_idx("\n", 2) == 1 );
-// 	// assert(ft_strlen_idx("hello\n", 2) == 6 );
-// 	// assert(ft_strlen_idx(NULL, 2) == 0 );
-// 	// assert(ft_strlen_idx(NULL, 1) == 0 );
-// 	// assert(!strcmp(ft_substr("hello world",6,5),"world"));
-// 	// int len = ft_strlen_idx("hello\nworld",1);
-// 	// int idx = ft_strlen_idx("hello\nworld",2);
-// 	// assert(!strcmp(ft_substr("hello\nworld",idx,len - idx), "world"));
-// 	// assert(!strcmp(ft_substr("hello\nworld",0,idx), "hello\n"));
-// 	// assert(!strcmp(ft_substr("h",1,0), ""));
-// 	// assert(!strcmp(ft_substr("\n\n",0,1), "\n"));
-
-// 	// assert(!strcmp(ft_substr("h",0,50), "h"));
-// 	// assert(ft_substr(NULL,1,0) == NULL);
-// 	// assert(!strcmp(ft_strdup("hello"),"hello"));
-// 	// assert(!strcmp(ft_strdup(""),""));
-// 	// assert(!strcmp(ft_strdup("c"),"c"));
-// 	// assert(!strcmp(ft_strdup("\n\n\n\n"),"\n\n\n\n"));
-// 	// assert(!strcmp(ft_strdup("          "),"          "));
-// 	// assert(ft_strdup(NULL) == NULL);
-
-// 	// printf("%s\n",ft_strjoin("hello"," world"));
-// 	// assert(!strcmp(ft_strjoin("hello"," world"),"hello world"));
-// 	// assert(!strcmp(ft_strjoin("hello",NULL),"hello"));
-// 	// assert(!strcmp(ft_strjoin(NULL," world")," world"));
-// 	// assert(ft_strjoin(NULL,NULL) == NULL);
-// 	// assert(!strcmp(ft_strjoin("\n",""),"\n"));
-// 	// assert(!strcmp(ft_strjoin("",""),""));
-// 	// assert(!strcmp(ft_strjoin(" "," "),"  "));
-// 	// assert(!strcmp(ft_strjoin("a","b"),"ab"));
-// 	// assert(!strcmp(ft_strjoin("ab","c"),"abc"));
-
-
-// 	// char *line = NULL;
-// 	// char *stach = "\n";
-
-// 	// check_stach(&line,&stach);
-
-// 	// printf("voici la ligne %s a l'adresse %p\n" ,line,line);
-// 	// printf("voici la stach %s a l'adresse %p\n" ,stach,stach);
-
-	
-// 	char *str = ft_strchr("hello \n world");
-
-// 	printf("%s\n",str + 1);
-
-// }

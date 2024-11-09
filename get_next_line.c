@@ -6,7 +6,7 @@
 /*   By: cw3l <cw3l@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 13:06:06 by cw3l              #+#    #+#             */
-/*   Updated: 2024/11/09 14:56:36 by cw3l             ###   ########.fr       */
+/*   Updated: 2024/11/09 15:15:47 by cw3l             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 char	*read_traitement(int fd, char *buff, char *line, char **stach);
 
-char	*ft_process(int fd, char *buff, char *line, char **stach, int b)
+char	*clean(char **old_ptr, char *new)
+{
+	free (*old_ptr);
+	*old_ptr = new;
+	return (*old_ptr);
+}
+
+char	*ft_process(int fd, char *buff, char *line, char **stach)
 {
 	line = clean(&line, ft_strjoin(line, buff));
 	if (!line)
 		return (NULL);
-	if (b > 0)
+	if (ft_len_index_of(buff, 'l') > 0)
 		line = read_traitement(fd, buff, line, stach);
 	return (line);
 }
@@ -40,13 +47,11 @@ char	*read_traitement(int fd, char *buff, char *line, char **stach)
 	buff[b] = '\0';
 	if (b == 0)
 		return (line);
-	index_return = ft_len_index_of(buff,'i');
+	index_return = ft_len_index_of(buff, 'i');
 	if (index_return == -1)
-		return (ft_process(fd, buff, line, stach, b));
-		
+		return (ft_process(fd, buff, line, stach));
 	tmp = ft_substr(buff, 0, index_return + 1);
 	line = clean(&line, ft_strjoin(line, tmp));
-
 	free(tmp);
 	t = ft_strchr(buff, 10) + 1;
 	*stach = ft_strdup(t);
@@ -55,23 +60,20 @@ char	*read_traitement(int fd, char *buff, char *line, char **stach)
 
 char	*ft_stach_processing(char **stach, char **line, char **buffer)
 {
-	char *tmp1;
-	char *tmp2;
-	int	index_return;
-	int	len_return;
+	char	*tmp1;
+	char	*tmp2;
+	int		index_return;
+	int		len_return;
 
 	index_return = ft_len_index_of(*stach, 'i') + 1;
 	len_return = ft_len_index_of(*stach, 'l');
-	
 	tmp1 = ft_substr(*stach, 0, index_return);
 	*line = ft_strjoin(*line, tmp1);
-	
-	if(!(*line))
+	if (!(*line))
 		return (NULL);
 	free(tmp1);
-	tmp2 = ft_substr(*stach,index_return, len_return - index_return);
+	tmp2 = ft_substr(*stach, index_return, len_return - index_return);
 	free(*stach);
-	
 	if (ft_len_index_of(tmp2, 'l') == 0)
 	{
 		free(tmp2);
@@ -96,7 +98,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = NULL;
 	if (stach[fd] && ft_len_index_of(stach[fd], 'i') > -1)
-		return ( ft_stach_processing(&stach[fd],&line,&buffer));
+		return (ft_stach_processing(&stach[fd], &line, &buffer));
 	else
 	{
 		line = clean(&line, ft_strjoin(line, stach[fd]));
